@@ -3,47 +3,22 @@ package com.kig2.project1.model;
 import java.util.Date;
 
 public class Adv {
-    public int advId,seLLId,modeId,cateId,userId;
-    public String header,content,address,street,district,ward,cityProvince,photo,agentAccount,sellAccount;
-    public float price,area,bedroom;
-    public Date dateUp,expdate;
-    public boolean approved,paid;
+    public int advId,seLLId,modeId,usedId;
+    public String header,content,address,photo;
+    public double price,area,bedroom;
 
-    public Adv(int advId, int seLLId, int modeId, int cateId, int userId, String header, String content, String address, String street, String district, String ward, String cityProvince, String photo, String agentAccount, String sellAccount,
-               float price, float area, float bedroom, Date dateUp, Date expdate, boolean approved, boolean paid) {
+    public Adv(int advId, int seLLId, int modeId, int usedId, String header, String content, String address, String photo, double price, double area, double bedroom) {
         this.advId = advId;
         this.seLLId = seLLId;
         this.modeId = modeId;
-        this.cateId = cateId;
-        this.userId = userId;
+        this.usedId = usedId;
         this.header = header;
         this.content = content;
         this.address = address;
-        this.street = street;
-        this.district = district;
-        this.ward = ward;
-        this.cityProvince = cityProvince;
         this.photo = photo;
-        this.agentAccount = agentAccount;
-        this.sellAccount = sellAccount;
         this.price = price;
         this.area = area;
         this.bedroom = bedroom;
-        this.dateUp = dateUp;
-        this.expdate = expdate;
-        this.approved = approved;
-        this.paid = paid;
-    }
-
-    public Adv(int advId, int usedId, int seLLId, int modeId, int cateId, String header, String content, Double price, String address, String street, String district, String ward, String cityProvince, Double area, String photo, String dateUp, String expdate, int agentId, String agentAccount, String sellAccount, Boolean approved, Boolean paid, Double bedroom) {
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public int getAdvId() {
@@ -70,12 +45,12 @@ public class Adv {
         this.modeId = modeId;
     }
 
-    public int getCateId() {
-        return cateId;
+    public int getUsedId() {
+        return usedId;
     }
 
-    public void setCateId(int cateId) {
-        this.cateId = cateId;
+    public void setUsedId(int usedId) {
+        this.usedId = usedId;
     }
 
     public String getHeader() {
@@ -102,38 +77,6 @@ public class Adv {
         this.address = address;
     }
 
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getWard() {
-        return ward;
-    }
-
-    public void setWard(String ward) {
-        this.ward = ward;
-    }
-
-    public String getCityProvince() {
-        return cityProvince;
-    }
-
-    public void setCityProvince(String cityProvince) {
-        this.cityProvince = cityProvince;
-    }
-
     public String getPhoto() {
         return photo;
     }
@@ -142,75 +85,27 @@ public class Adv {
         this.photo = photo;
     }
 
-    public String getAgentAccount() {
-        return agentAccount;
-    }
-
-    public void setAgentAccount(String agentAccount) {
-        this.agentAccount = agentAccount;
-    }
-
-    public String getSellAccount() {
-        return sellAccount;
-    }
-
-    public void setSellAccount(String sellAccount) {
-        this.sellAccount = sellAccount;
-    }
-
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public float getArea() {
+    public double getArea() {
         return area;
     }
 
-    public void setArea(float area) {
+    public void setArea(double area) {
         this.area = area;
     }
 
-    public float getBedroom() {
+    public double getBedroom() {
         return bedroom;
     }
 
-    public void setBedroom(float bedroom) {
+    public void setBedroom(double bedroom) {
         this.bedroom = bedroom;
-    }
-
-    public Date getDateUp() {
-        return dateUp;
-    }
-
-    public void setDateUp(Date dateUp) {
-        this.dateUp = dateUp;
-    }
-
-    public Date getExpdate() {
-        return expdate;
-    }
-
-    public void setExpdate(Date expdate) {
-        this.expdate = expdate;
-    }
-
-    public boolean isApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
-
-    public boolean isPaid() {
-        return paid;
-    }
-
-    public void setPaid(boolean paid) {
-        this.paid = paid;
     }
 }

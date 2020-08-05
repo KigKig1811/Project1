@@ -3,13 +3,16 @@ package com.kig2.project1.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import androidx.appcompat.widget.Toolbar;
@@ -23,7 +26,9 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.kig2.project1.R;
+import com.kig2.project1.adapter.AdvAdapter;
 import com.kig2.project1.adapter.ModeAdapter;
+import com.kig2.project1.model.Adv;
 import com.kig2.project1.model.Mode;
 import com.kig2.project1.ultil.CheckConnection;
 import com.kig2.project1.ultil.Server;
@@ -48,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         String modeName="";
         String image="";
 
+    ArrayList<Adv> arrayAdvNew;
+    AdvAdapter advAdapter;
+
+
+
 
 
     @Override
@@ -60,10 +70,125 @@ public class MainActivity extends AppCompatActivity {
             ActionBar();
             ActionViewFlipper();
             GetMode();
+            GetAdvNew();
+            CatchOnItemListView();
         }else{
             CheckConnection.ShowToast_Shost(getApplicationContext(),"Kiem tra lai connection!!!");
             finish();
         }
+    }
+
+    private void CatchOnItemListView() {
+        listViewHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+                            Intent intent=new Intent(MainActivity.this,MainActivity.class);
+                            startActivity(intent);
+                        }else {
+                            CheckConnection.ShowToast_Shost(getApplicationContext(),"Check connection!!!");
+                        }
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 1:
+                        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+                            Intent intent=new Intent(MainActivity.this,SaleActivity.class);
+                            intent.putExtra("modeId",arrayMode.get(i).getModeId());
+                            startActivity(intent);
+                        }else {
+                            CheckConnection.ShowToast_Shost(getApplicationContext(),"Check connection!!!");
+                        }
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 2:
+                        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+                            Intent intent=new Intent(MainActivity.this,BuyActivity.class);
+                            intent.putExtra("modeId",arrayMode.get(i).getModeId());
+                            startActivity(intent);
+                        }else {
+                            CheckConnection.ShowToast_Shost(getApplicationContext(),"Check connection!!!");
+                        }
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 3:
+                        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+                            Intent intent=new Intent(MainActivity.this,RentActivity.class);
+                            intent.putExtra("modeId",arrayMode.get(i).getModeId());
+                            startActivity(intent);
+                        }else {
+                            CheckConnection.ShowToast_Shost(getApplicationContext(),"Check connection!!!");
+                        }
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 4:
+                        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+                            Intent intent=new Intent(MainActivity.this,LeaseActivity.class);
+                            intent.putExtra("modeId",arrayMode.get(i).getModeId());
+                            startActivity(intent);
+                        }else {
+                            CheckConnection.ShowToast_Shost(getApplicationContext(),"Check connection!!!");
+                        }
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                }
+            }
+        });
+    }
+
+    private void GetAdvNew() {
+        Context context;
+        RequestQueue requestQueue=Volley.newRequestQueue(getApplicationContext());
+        JsonArrayRequest jsonArrayRequest =new JsonArrayRequest(Server.Duongdanadvnew, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                if (response != null) {
+                    Integer advId=0;
+                    Integer seLLId=0;
+                    Integer usedId=0;
+                    String header="";
+                    String content="";
+                    String address="";
+                    String photo="";
+                    double price=0;
+                    double area=0;
+                    Integer bedroom=0;
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jsonObject = response.getJSONObject(i);
+                            advId = jsonObject.getInt("AdvId");
+                            seLLId = jsonObject.getInt("SeLLId");
+                            modeId = jsonObject.getInt("ModeId");
+                            usedId = jsonObject.getInt("UsedId");
+                            header = jsonObject.getString("Header");
+                            content = jsonObject.getString("Content");
+                            address = jsonObject.getString("Address");
+                            photo = jsonObject.getString("Photo");
+                            price = jsonObject.getDouble("Price");
+                            area = jsonObject.getDouble("Area");
+                            bedroom = jsonObject.getInt("Bedroom");
+                            arrayAdvNew.add(new Adv(advId,seLLId,modeId,usedId,header,content,address,photo,price,area,bedroom));
+                            advAdapter.notifyDataSetChanged();
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                CheckConnection.ShowToast_Shost(getApplicationContext(),error.toString());
+            }
+        });
+
+        requestQueue.add(jsonArrayRequest);
     }
 
     private void GetMode() {
@@ -125,6 +250,11 @@ public class MainActivity extends AppCompatActivity {
         arrayMode.add(0,new Mode(0,"Home","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRx1dgF6cD-O__Uz3xY5tGaImzIm1dVFF9zcg&usqp=CAU"));
         modeAdapter=new ModeAdapter(arrayMode,getApplicationContext());
         listViewHome.setAdapter(modeAdapter);
+        arrayAdvNew=new ArrayList<>();
+        advAdapter=new AdvAdapter(getApplicationContext(),arrayAdvNew);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+        recyclerView.setAdapter(advAdapter);
 
 
 
