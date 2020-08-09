@@ -31,7 +31,7 @@ public class AdvAdapter extends RecyclerView.Adapter<AdvAdapter.ItemHolder> {
     public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.dong_advnew,null);
         ItemHolder itemHolder=new ItemHolder(v);
-        return null;
+        return itemHolder;
     }
 
     @Override

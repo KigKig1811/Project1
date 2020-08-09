@@ -57,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
     AdvAdapter advAdapter;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void GetAdvNew() {
-        Context context;
-        RequestQueue requestQueue=Volley.newRequestQueue(getApplicationContext());
+        RequestQueue requestQueue=Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest =new JsonArrayRequest(Server.Duongdanadvnew, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -148,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     Integer advId=0;
                     Integer seLLId=0;
                     Integer usedId=0;
+
                     String header="";
                     String content="";
                     String address="";
